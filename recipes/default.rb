@@ -5,6 +5,8 @@
 # Copyright 2014, Escape Studios
 #
 
+require 'yaml'
+
 include_recipe node['newrelic_meetme_plugin']['python_recipe']
 
 license = node['newrelic_meetme_plugin']['license']
@@ -42,22 +44,23 @@ template node['newrelic_meetme_plugin']['config_file'] do
   owner 'root'
   group 'root'
   mode 0644
-  variables lazy do {
-    :license_key => license,
-    :service_name => node['newrelic_meetme_plugin']['service_name'],
-    :wake_interval => node['newrelic_meetme_plugin']['wake_interval'],
-    :proxy => node['newrelic_meetme_plugin']['proxy'],
-    :services_yml => if node['newrelic_meetme_plugin']['services'].empty?
-      nil
-    else
-      require 'yaml'
-      services = {'#services' => node['newrelic_meetme_plugin']['services']}
-      services.to_yaml(:indentation => 2).gsub("! '#services':", '#services:').gsub('---', '').gsub(/!ruby\/[a-zA-Z:]*/, '')
-    end,
-    :user => node['newrelic_meetme_plugin']['user'],
-    :pid_file => node['newrelic_meetme_plugin']['pid_file'],
-    :log_file => node['newrelic_meetme_plugin']['log_file']
-  } end
+  variables lazy do
+    service_yml = nil
+    unless node['newrelic_meetme_plugin']['services'].empty?
+      services = { '#services' => node['newrelic_meetme_plugin']['services'] }
+      service_yml = services.to_yaml(:indentation => 2).gsub("! '#services':", '#services:').gsub('---', '').gsub(/!ruby\/[a-zA-Z:]*/, '')
+    end
+    {
+      :license_key => license,
+      :service_name => node['newrelic_meetme_plugin']['service_name'],
+      :wake_interval => node['newrelic_meetme_plugin']['wake_interval'],
+      :proxy => node['newrelic_meetme_plugin']['proxy'],
+      :services_yml => services_yml,
+      :user => node['newrelic_meetme_plugin']['user'],
+      :pid_file => node['newrelic_meetme_plugin']['pid_file'],
+      :log_file => node['newrelic_meetme_plugin']['log_file']
+    }
+  end
   action :create
   notifies :restart, "service[#{node['newrelic_meetme_plugin']['service_name']}]", :delayed
 end
