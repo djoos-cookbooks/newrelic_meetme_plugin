@@ -5,6 +5,8 @@
 # Copyright 2014, Escape Studios
 #
 
+require 'yaml'
+
 include_recipe node['newrelic_meetme_plugin']['python_recipe']
 
 license = node['newrelic_meetme_plugin']['license']
@@ -36,33 +38,29 @@ files.each do |file|
   end
 end
 
-services_yml = nil
-
-services = {
-  '#services' => node['newrelic_meetme_plugin']['services']
-}
-
-unless services.nil?
-  require 'yaml'
-  services_yml = services.to_yaml(:indentation => 2).gsub("! '#services':", '#services:').gsub('---', '').gsub(/!ruby\/[a-zA-Z:]*/, '')
-end
-
 # configuration file
 template node['newrelic_meetme_plugin']['config_file'] do
   source 'newrelic-plugin-agent.cfg.erb'
   owner 'root'
   group 'root'
   mode 0644
-  variables(
-    :license_key => license,
-    :service_name => node['newrelic_meetme_plugin']['service_name'],
-    :wake_interval => node['newrelic_meetme_plugin']['wake_interval'],
-    :proxy => node['newrelic_meetme_plugin']['proxy'],
-    :services_yml => services_yml,
-    :user => node['newrelic_meetme_plugin']['user'],
-    :pid_file => node['newrelic_meetme_plugin']['pid_file'],
-    :log_file => node['newrelic_meetme_plugin']['log_file']
-  )
+  variables lazy do
+    service_yml = nil
+    unless node['newrelic_meetme_plugin']['services'].empty?
+      services = { '#services' => node['newrelic_meetme_plugin']['services'] }
+      service_yml = services.to_yaml(:indentation => 2).gsub("! '#services':", '#services:').gsub('---', '').gsub(/!ruby\/[a-zA-Z:]*/, '')
+    end
+    {
+      :license_key => license,
+      :service_name => node['newrelic_meetme_plugin']['service_name'],
+      :wake_interval => node['newrelic_meetme_plugin']['wake_interval'],
+      :proxy => node['newrelic_meetme_plugin']['proxy'],
+      :services_yml => services_yml,
+      :user => node['newrelic_meetme_plugin']['user'],
+      :pid_file => node['newrelic_meetme_plugin']['pid_file'],
+      :log_file => node['newrelic_meetme_plugin']['log_file']
+    }
+  end
   action :create
   notifies :restart, "service[#{node['newrelic_meetme_plugin']['service_name']}]", :delayed
 end
