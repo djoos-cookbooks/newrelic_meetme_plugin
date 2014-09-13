@@ -55,7 +55,6 @@ template node['newrelic_meetme_plugin']['config_file'] do
   mode 0644
   variables(
     :license_key => license,
-    :service_name => node['newrelic_meetme_plugin']['service_name'],
     :wake_interval => node['newrelic_meetme_plugin']['wake_interval'],
     :proxy => node['newrelic_meetme_plugin']['proxy'],
     :services_yml => services_yml,
