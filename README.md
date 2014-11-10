@@ -77,7 +77,7 @@ eg.
 * `node['newrelic_meetme_plugin']['config_file']` - The New Relic plugin agent config file, defaults to "/etc/newrelic/newrelic-plugin-agent.cfg"
 * `node['newrelic_meetme_plugin']['pid_file']` - The New Relic plugin agent PID file name, defaults to "/var/run/newrelic/newrelic-plugin-agent.pid"
 * `node['newrelic_meetme_plugin']['log_file']` - The New Relic plugin agent log file name, defaults to "/var/log/newrelic/newrelic-plugin-agent.log"
-* `node['newrelic_meetme_plugin']['user']` - The New Relic plugin agent user, defaults to "newrelic"
+* `node['newrelic_meetme_plugin']['user']` - The New Relic plugin agent user, defaults to "newrelic". This user is not created by the cookbook or the PyPi package, so the default value will cause the plugin agent to fail if the `newrelic` user does not exist.
 * `node['newrelic_meetme_plugin']['additional_requirements']` - The New Relic plugin agent's additional requirements, eg. {"mongodb", "pgbouncer", "postgresql"} - defaults to {}
 
 Usage
