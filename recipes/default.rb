@@ -45,7 +45,11 @@ newrelic_meetme_plugin_cfg node['newrelic_meetme_plugin']['config_file'] do
   user node['newrelic_meetme_plugin']['user']
   pid_file node['newrelic_meetme_plugin']['pid_file']
   log_file node['newrelic_meetme_plugin']['log_file']
-  notifies :restart, "service[#{node['newrelic_meetme_plugin']['service_name']}]", :delayed
+  notifies(
+    node['newrelic_meetme_plugin']['service_notify_action'],
+    "service[#{node['newrelic_meetme_plugin']['service_name']}]",
+    :delayed
+  )
 end
 
 # installing additional requirement(s)
