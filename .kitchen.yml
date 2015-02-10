@@ -10,3 +10,18 @@ suites:
   - name: default
     run_list:
       - recipe[newrelic_meetme_plugin::default]
+    attributes:
+      newrelic_meetme_plugin:
+        license: TESTKEY_PLUGIN_AGENT
+        service_actions: enable
+        services:
+          apache_httpd:
+            scheme: http
+            host: localhost
+            port: 80
+            path: /server-status
+          php_apc:
+            scheme: http
+            host: localhost
+            port: 80
+            path: /apc-nrp.php
