@@ -17,3 +17,6 @@ suites:
   - name: default
     run_list:
       - recipe[newrelic_meetme_plugin::default]
+    attributes:
+      newrelic_meetme_plugin:
+        service_notify_action: nothing
