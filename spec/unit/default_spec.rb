@@ -4,6 +4,7 @@ describe 'newrelic_meetme_plugin::default' do
   let(:chef_run) do
     ChefSpec::SoloRunner.new(:platform => 'ubuntu', :version => '14.04') do |node|
       node.set['newrelic_meetme_plugin']['license'] = 'TESTKEY_PLUGIN_AGENT'
+      node.set['newrelic_meetme_plugin']['service_actions'] = :enable
       node.set['newrelic_meetme_plugin']['services'] = {
         'apache_httpd' => {
           'scheme' => 'http',
@@ -95,7 +96,7 @@ describe 'newrelic_meetme_plugin::default' do
         :restart => true
       }
     )
-    expect(chef_run).to start_service 'newrelic-plugin-agent'
+    expect(chef_run).to_not start_service 'newrelic-plugin-agent'
   end
 end
 
