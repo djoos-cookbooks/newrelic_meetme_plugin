@@ -1,19 +1,27 @@
 ---
-driver_plugin: vagrant
-driver_config:
-  require_chef_omnibus: true
+driver:
+  name: vagrant
 
 platforms:
   - name: ubuntu-12.04
-    driver_config:
-        box: opscode-ubuntu-12.04
-        box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
-#  - name: centos-6.4
-#    driver_config:
-#        box: opscode-centos-6.4
-#        box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.4_provisionerless.box
+  - name: ubuntu-14.04
 
 suites:
   - name: default
     run_list:
       - recipe[newrelic_meetme_plugin::default]
+    attributes:
+      newrelic_meetme_plugin:
+        license: TESTKEY_PLUGIN_AGENT
+        service_actions: enable
+        services:
+          apache_httpd:
+            scheme: http
+            host: localhost
+            port: 80
+            path: /server-status
+          php_apc:
+            scheme: http
+            host: localhost
+            port: 80
+            path: /apc-nrp.php
