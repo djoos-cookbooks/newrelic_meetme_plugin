@@ -12,6 +12,9 @@ suites:
       - recipe[newrelic_meetme_plugin::default]
     attributes:
       newrelic_meetme_plugin:
+        service_notify_action: nothing
+    attributes:
+      newrelic_meetme_plugin:
         license: TESTKEY_PLUGIN_AGENT
         service_actions: enable
         services:
