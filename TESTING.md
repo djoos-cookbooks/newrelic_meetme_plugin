@@ -22,10 +22,6 @@ Install the gems used for testing:
 
     bundle install
 
-Install the berkshelf plugin for vagrant:
-
-    vagrant plugin install vagrant-berkshelf
-
 Running syntax/lint checks
 --------------------------
 

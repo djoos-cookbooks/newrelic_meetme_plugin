@@ -21,7 +21,9 @@ task :lint => ['lint:ruby', 'lint:chef']
 
 # unit testing: ChefSpec
 desc 'Run RSpec and ChefSpec unit tests'
-RSpec::Core::RakeTask.new(:unit)
+RSpec::Core::RakeTask.new(:unit) do |t|
+  t.rspec_opts = '--color'
+end
 
 # integration testing: Test Kitchen
 namespace :integration do
