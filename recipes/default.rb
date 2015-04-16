@@ -2,7 +2,7 @@
 # Cookbook Name:: newrelic_meetme_plugin
 # Recipe:: default
 #
-# Copyright 2014, Escape Studios
+# Copyright 2014-2015, Escape Studios
 #
 
 include_recipe node['newrelic_meetme_plugin']['python_recipe']

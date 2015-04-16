@@ -2,7 +2,7 @@
 # Cookbook Name:: newrelic_meetme_plugin
 # Attributes:: default
 #
-# Copyright 2014, Escape Studios
+# Copyright 2014-2015, Escape Studios
 #
 
 default['newrelic_meetme_plugin']['license'] = nil

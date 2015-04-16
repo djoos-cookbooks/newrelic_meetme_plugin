@@ -2,7 +2,7 @@
 # Cookbook Name:: newrelic_meetme_plugin
 # Provider:: cfg
 #
-# Copyright 2014, Escape Studios
+# Copyright 2014-2015, Escape Studios
 #
 
 require 'yaml'
