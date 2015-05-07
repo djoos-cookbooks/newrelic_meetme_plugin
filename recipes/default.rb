@@ -41,7 +41,7 @@ newrelic_meetme_plugin_cfg node['newrelic_meetme_plugin']['config_file'] do
   license license
   wake_interval node['newrelic_meetme_plugin']['wake_interval']
   proxy node['newrelic_meetme_plugin']['proxy']
-  services node['newrelic_meetme_plugin']['services']
+  services lazy { node['newrelic_meetme_plugin']['services'] }
   user node['newrelic_meetme_plugin']['user']
   pid_file node['newrelic_meetme_plugin']['pid_file']
   log_file node['newrelic_meetme_plugin']['log_file']
