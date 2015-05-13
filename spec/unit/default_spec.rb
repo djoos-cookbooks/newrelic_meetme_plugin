@@ -78,11 +78,13 @@ describe 'newrelic_meetme_plugin::default' do
       :source    => 'newrelic-plugin-agent.erb',
       :mode      => 0755,
       :variables => {
-        :service_name => 'newrelic-plugin-agent',
-        :config_file  => '/etc/newrelic/newrelic-plugin-agent.cfg',
-        :pid_file     => '/var/run/newrelic/newrelic-plugin-agent.pid',
-        :user         => 'newrelic',
-        :group        => 'newrelic'
+        :resource => {
+          :service_name => 'newrelic-plugin-agent',
+          :config_file  => '/etc/newrelic/newrelic-plugin-agent.cfg',
+          :pid_file     => '/var/run/newrelic/newrelic-plugin-agent.pid',
+          :user         => 'newrelic',
+          :group        => 'newrelic'
+        }
       }
     )
   end

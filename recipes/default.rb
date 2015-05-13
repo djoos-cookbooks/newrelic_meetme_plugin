@@ -60,7 +60,7 @@ node['newrelic_meetme_plugin']['additional_requirements'].each do |additional_re
 end
 
 # init script
-variables = {
+resources = {
   :service_name => node['newrelic_meetme_plugin']['service_name'],
   :config_file => node['newrelic_meetme_plugin']['config_file'],
   :pid_file => node['newrelic_meetme_plugin']['pid_file']
@@ -68,15 +68,15 @@ variables = {
 
 case node['platform']
 when 'debian', 'ubuntu'
-  variables[:user] = node['newrelic_meetme_plugin']['user']
-  variables[:group] = node['newrelic_meetme_plugin']['user']
+  resources[:user] = node['newrelic_meetme_plugin']['user']
+  resources[:group] = node['newrelic_meetme_plugin']['user']
 end
 
 template "/etc/init.d/#{node['newrelic_meetme_plugin']['service_name']}" do
   source 'newrelic-plugin-agent.erb'
   mode 0755
   variables(
-    variables
+    :resource => resources
   )
 end
 

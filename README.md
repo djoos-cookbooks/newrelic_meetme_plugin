@@ -32,6 +32,11 @@ Make sure you run Chef >= 0.10.0.
 * Windows
 * SmartOS
 
+
+Usage
+==========
+
+
 Attributes
 ==========
 
@@ -83,10 +88,45 @@ eg.
 Usage
 =====
 
+There are two ways to use this cookbook: the lwrp resource or the default recipe. 
+
+## default recipe:
+
 1. include `recipe[newrelic_meetme_plugin]`
 2. change the `node['newrelic_meetme_plugin']['license']` attribute to your New Relic license key
 --- OR ---
 override the attributes on a higher level (http://wiki.opscode.com/display/chef/Attributes#Attributes-AttributesPrecedence)
+
+
+## newrelic_meetme_plugin lwrp: 
+
+The `newrelic_meetme_plugin` resource will install or remove the plugin and populate the config file.  See test/fixtures/cookbooks/meetme_lwrp_test/recipes/install.rb for an example.
+
+#### Prerequisites
+* Python and Pip need to be installed
+* The user running the agent needs to exist
+
+#### Actions
+
+- :install - Install the meetme plugin package and populate config.  
+- :remove  -  Uninstall the meetme plugin package and remove config
+
+#### Attribute parameters
+
+* `'license'` New Relic license key
+* `'virtualenv'` the python virtualenv to install the pip package into
+* `'config_file'` the path to config file. Default '/etc/newrelic/newrelic-plugin-agent.cfg' 
+* `'cookbook'` - Sets cookbook for template, defaults to this cookbook newrelic_meetme_plugin.
+* `'source'` - Sets source for template, defaults to 'newrelic-plugin-agent-cfg.erb'
+* `'wake_interval'`- The New Relic plugin agent wake interval, defaults to 60
+* `'proxy'`- The New Relic plugin agent proxy, optional
+* `'services'`- A hash of services to monitor. See Attributes. Default empty hash.
+* `'additional_requirements'`- The New Relic plugin agent's additional requirements, eg. ["mongodb", "pgbouncer", "postgresql"] - defaults to []
+* `'service_name'`- The New Relic MeetMe plugin service name, defaults to 'newrelic-plugin-agent'
+* `'user'`- Defaults to 'newrelic'.  This user is not created by the cookbook or the PyPi package, so the default value will cause the plugin agent to fail if the `newrelic` user does not exist.
+* `'pid_file'`- The New Relic plugin agent PID file name, defaults to "/var/run/newrelic/newrelic-plugin-agent.pid"
+* `'log_file'`- The New Relic plugin agent log file name, defaults to "/var/log/newrelic/newrelic-plugin-agent.log"
+
 
 License and Authors
 ===================
