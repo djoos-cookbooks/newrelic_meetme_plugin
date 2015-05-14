@@ -1,33 +1,33 @@
 #!/bin/bash
 # chkconfig: 2345 99 60
-# description: <%= @service_name %>
-# processname: <%= @service_name %>
-# config: <%= @config_file %>
-# pidfile: <%= @pid_file %>
+# description: <%= @resource[:service_name] %>
+# processname: <%= @resource[:service_name] %>
+# config: <%= @resource[:config_file] %>
+# pidfile: <%= @resource[:pid_file] %>
 
 # Source function library.
 . /etc/init.d/functions
 
 # Application
-APP="/usr/bin/<%= @service_name %>"
+APP="/usr/bin/<%= @resource[:service_name] %>"
 
 # PID File
-PID_FILE=<%= @pid_file %>
+PID_FILE=<%= @resource[:pid_file] %>
 
 # Additional arguments
 OPTS=""
 
-if [ -f /etc/sysconfig/<%= @service_name %> ]; then
+if [ -f /etc/sysconfig/<%= @resource[:service_name] %> ]; then
   # Include configuration
-  . /etc/sysconfig/<%= @service_name %>
+  . /etc/sysconfig/<%= @resource[:service_name] %>
 fi
 
 # Configuration file
-CONF=<%= @config_file %>
+CONF=<%= @resource[:config_file] %>
 
 if [ ! -f "${CONF}" ]; then
-  echo -n $"cannot find <%= @service_name %> configuration file: '${CONF}'"
-  failure $"cannot find <%= @service_name %> configuration file: '${CONF}'"
+  echo -n $"cannot find <%= @resource[:service_name] %> configuration file: '${CONF}'"
+  failure $"cannot find <%= @resource[:service_name] %> configuration file: '${CONF}'"
   echo
   exit 1
 fi

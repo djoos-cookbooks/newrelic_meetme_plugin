@@ -4,6 +4,7 @@ describe 'newrelic_meetme_plugin::default' do
   let(:chef_run) do
     ChefSpec::SoloRunner.new(:platform => 'ubuntu', :version => '14.04') do |node|
       node.set['newrelic_meetme_plugin']['license'] = 'TESTKEY_PLUGIN_AGENT'
+      node.set['newrelic']['license'] = 'TESTKEY_PLUGIN_AGENT'
       node.set['newrelic_meetme_plugin']['service_actions'] = :enable
       node.set['newrelic_meetme_plugin']['services'] = {
         'apache_httpd' => {
@@ -78,11 +79,13 @@ describe 'newrelic_meetme_plugin::default' do
       :source    => 'newrelic-plugin-agent.erb',
       :mode      => 0755,
       :variables => {
-        :service_name => 'newrelic-plugin-agent',
-        :config_file  => '/etc/newrelic/newrelic-plugin-agent.cfg',
-        :pid_file     => '/var/run/newrelic/newrelic-plugin-agent.pid',
-        :user         => 'newrelic',
-        :group        => 'newrelic'
+        :resource => {
+          :service_name => 'newrelic-plugin-agent',
+          :config_file  => '/etc/newrelic/newrelic-plugin-agent.cfg',
+          :pid_file     => '/var/run/newrelic/newrelic-plugin-agent.pid',
+          :user         => 'newrelic',
+          :group        => 'newrelic'
+        }
       }
     )
   end
