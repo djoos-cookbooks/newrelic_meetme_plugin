@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: newrelic
-# Resource:: agent_python
+# Cookbook Name:: newrelic_meetme_plugin
+# Resource: newrelic_meetme_plugin_install
 #
 # Copyright 2012-2015, Escape Studios
 #

@@ -33,10 +33,6 @@ Make sure you run Chef >= 0.10.0.
 * SmartOS
 
 
-Usage
-==========
-
-
 Attributes
 ==========
 

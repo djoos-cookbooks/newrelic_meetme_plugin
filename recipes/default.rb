@@ -7,7 +7,7 @@
 
 include_recipe node['newrelic_meetme_plugin']['python_recipe']
 
-license = node['newrelic_meetme_plugin']['license']
+license = node['newrelic_meetme_plugin']['license'] ? node['newrelic_meetme_plugin']['license'] : node['newrelic']['license']
 
 # install latest plugin agent
 python_pip node['newrelic_meetme_plugin']['service_name'] do
