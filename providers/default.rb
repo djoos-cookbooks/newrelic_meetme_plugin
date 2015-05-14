@@ -40,30 +40,30 @@ action :remove do
 end
 
 def generate_config
-    services_yml = nil
-    services = {
-      '#services' => new_resource.services
-    }
-    services_yml = services.to_yaml(:indentation => 2).gsub(/(! )?['"]#services['"]:/, '#services:').gsub('---', '').gsub(%r{!(ruby\/|map|seq)[a-zA-Z:]*}, '')
-  
-    # service restart
-    service 'restart-newrelic-plugin-agent' do
-      service_name new_resource.service_name
-      supports :status => true, :start => true, :stop => true, :restart => true
-      action [:nothing]
-    end
-    t = template new_resource.config_file do
-      cookbook new_resource.cookbook
-      source new_resource.source
-      owner 'root'
-      group 'root'
-      mode 0644
-      variables(
-        :resource => new_resource,
-        :services_yml => services_yml
-      )
-      action :create
-      notifies :restart, 'service[restart-newrelic-plugin-agent]', :delayed
+  services_yml = nil
+  services = {
+    '#services' => new_resource.services
+  }
+  services_yml = services.to_yaml(:indentation => 2).gsub(/(! )?['"]#services['"]:/, '#services:').gsub('---', '').gsub(%r{!(ruby\/|map|seq)[a-zA-Z:]*}, '')
+
+  # service restart
+  service 'restart-newrelic-plugin-agent' do
+    service_name new_resource.service_name
+    supports :status => true, :start => true, :stop => true, :restart => true
+    action [:nothing]
+  end
+  t = template new_resource.config_file do
+    cookbook new_resource.cookbook
+    source new_resource.source
+    owner 'root'
+    group 'root'
+    mode 0644
+    variables(
+      :resource => new_resource,
+      :services_yml => services_yml
+    )
+    action :create
+    notifies :restart, 'service[restart-newrelic-plugin-agent]', :delayed
   end
 end
 
