@@ -1,11 +1,13 @@
 ---
-driver:
-  name: vagrant
+driver_plugin: vagrant
+driver_config:
+  require_chef_omnibus: true
 
 platforms:
   - name: ubuntu-12.04
   - name: ubuntu-14.04
   - name: centos-6.6
+
 suites:
   - name: default
     run_list:
@@ -29,7 +31,7 @@ suites:
             port: 80
             path: /apc-nrp.php
   - name: lwrp
-    run_list: 
+    run_list:
       - recipe[meetme_lwrp_test::install]
     attributes:
       newrelic_meetme_plugin:

@@ -1,26 +1,27 @@
 [![Build Status](https://travis-ci.org/escapestudios-cookbooks/newrelic_meetme_plugin.png)](https://travis-ci.org/escapestudios-cookbooks/newrelic_meetme_plugin)
 
-Description
-===========
+# newrelic_meetme_plugin cookbook
+
+## Description
 
 This cookbook provides an easy way to install various New Relic agents and the New Relic server monitor.
 
 More information?
+
 * https://pypi.python.org/pypi/newrelic-plugin-agent
 * https://github.com/MeetMe/newrelic-plugin-agent#installation-instructions
 
-Requirements
-============
+## Requirements
 
-## Chef version:
+### Chef version:
 
 Make sure you run Chef >= 0.10.0.
 
-## Cookbooks:
+### Cookbooks:
 
 * python
 
-## Platforms:
+### Platforms:
 
 * Debian
 * Ubuntu
@@ -32,11 +33,9 @@ Make sure you run Chef >= 0.10.0.
 * Windows
 * SmartOS
 
+## Attributes
 
-Attributes
-==========
-
-## default.rb:
+### default.rb:
 
 * `node['newrelic_meetme_plugin']['license']` - Your New Relic license key. Default is `nil`
 * `node['newrelic_meetme_plugin']['python_recipe']` - The python recipe to include, defaults to 'python::pip'
@@ -81,37 +80,35 @@ eg.
 * `node['newrelic_meetme_plugin']['user']` - The New Relic plugin agent user, defaults to "newrelic". This user is not created by the cookbook or the PyPi package, so the default value will cause the plugin agent to fail if the `newrelic` user does not exist.
 * `node['newrelic_meetme_plugin']['additional_requirements']` - The New Relic plugin agent's additional requirements, eg. ["mongodb", "pgbouncer", "postgresql"] - defaults to []
 
-Usage
-=====
+## Usage
 
-There are two ways to use this cookbook: the lwrp resource or the default recipe. 
+There are two ways to use this cookbook: the LWRP resource or the default recipe.
 
-## default recipe:
+### default recipe:
 
 1. include `recipe[newrelic_meetme_plugin]`
 2. change the `node['newrelic_meetme_plugin']['license']` attribute to your New Relic license key
 --- OR ---
 override the attributes on a higher level (http://wiki.opscode.com/display/chef/Attributes#Attributes-AttributesPrecedence)
 
-
-## newrelic_meetme_plugin lwrp: 
+### newrelic_meetme_plugin lwrp:
 
 The `newrelic_meetme_plugin` resource will install or remove the plugin and populate the config file.  See test/fixtures/cookbooks/meetme_lwrp_test/recipes/install.rb for an example.
 
-#### Prerequisites
+##### Prerequisites
 * Python and Pip need to be installed
 * The user running the agent needs to exist
 
-#### Actions
+##### Actions
 
 - :install - Install the meetme plugin package and populate config.  
 - :remove  -  Uninstall the meetme plugin package and remove config
 
-#### Attribute parameters
+##### Attribute parameters
 
 * `'license'` New Relic license key
 * `'virtualenv'` the python virtualenv to install the pip package into
-* `'config_file'` the path to config file. Default '/etc/newrelic/newrelic-plugin-agent.cfg' 
+* `'config_file'` the path to config file. Default '/etc/newrelic/newrelic-plugin-agent.cfg'
 * `'cookbook'` - Sets cookbook for template, defaults to this cookbook newrelic_meetme_plugin.
 * `'source'` - Sets source for template, defaults to 'newrelic-plugin-agent-cfg.erb'
 * `'wake_interval'`- The New Relic plugin agent wake interval, defaults to 60
@@ -123,9 +120,7 @@ The `newrelic_meetme_plugin` resource will install or remove the plugin and popu
 * `'pid_file'`- The New Relic plugin agent PID file name, defaults to "/var/run/newrelic/newrelic-plugin-agent.pid"
 * `'log_file'`- The New Relic plugin agent log file name, defaults to "/var/log/newrelic/newrelic-plugin-agent.log"
 
-
-License and Authors
-===================
+## License and Authors
 
 Author: David Joos <david.joos@escapestudios.com>
 Author: Escape Studios Development <dev@escapestudios.com>
