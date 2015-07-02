@@ -19,6 +19,7 @@ attribute :proxy, :kind_of => String, :default => nil
 attribute :services, :kind_of => Hash, :default => nil
 attribute :additional_requirements, :kind_of => Array, :default => [] # eg. ['mongodb', 'pgbouncer']
 attribute :service_name, :kind_of => String, :default => 'newrelic-plugin-agent'
+attribute :service_actions, :kind_of => Array, :default => [:enable, :start]
 attribute :user, :kind_of => String, :default => 'newrelic'
 attribute :pid_file, :kind_of => String, :default => '/var/run/newrelic/newrelic-plugin-agent.pid'
 attribute :log_file, :kind_of => String, :default => '/var/log/newrelic/newrelic-plugin-agent.log'

@@ -21,8 +21,8 @@ action :install do
   # Check license key provided
   check_license
   fail 'Cannot install newrelic meetme plugin. Missing pip. Please ensure python and pip are installed before calling this resource.' unless pip_installed?
-  fail "Cannot install newrelic meetme plugin. Please ensure user #{new_resource.user} exists before calling the resource." unless user_exists?(new_resource.user)
-  converge_by("Install #{ @new_resource }.") do
+  converge_by("Install #{@new_resource}.") do
+    user_manage('create')
     create_files
     meetme_action(:install)
     generate_config
@@ -34,8 +34,10 @@ action :install do
 end
 
 action :remove do
-  converge_by("Delete #{ @new_resource }. Remove pip package and config file.") do
+  converge_by("Delete #{@new_resource}. Remove pip package and config file.") do
+    remove_service
     meetme_action(:remove)
+    user_manage('remove')
   end
 end
 
@@ -89,12 +91,29 @@ def meetme_action(action)
 end
 
 def delete_config
-  ::File.delete(new_resource.config_file) if ::File.exist?(new_resource.config_file)
+  file new_resource.config_file do
+    action :delete
+  end
 end
 
 def meetme_additional_package(package)
   python_pip "newrelic-plugin-agent[#{package}]" do
     action :upgrade
+  end
+end
+
+def user_manage(action)
+  user new_resource.user do
+    action action
+  end
+end
+
+def remove_service
+  service new_resource.service_name do
+    action [:stop, :disable]
+  end
+  file "/etc/init.d/#{new_resource.service_name}" do
+    action :delete
   end
 end
 
@@ -110,6 +129,6 @@ def init_service
 
   service new_resource.service_name do
     supports :status => true, :start => true, :stop => true, :restart => true
-    action [:enable, :start]
+    action new_resource.service_actions
   end
 end

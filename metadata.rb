@@ -11,5 +11,7 @@ version '0.2.1'
 end
 
 depends 'python'
+depends 'apt'
+depends 'yum'
 
 recipe 'newrelic_meetme_plugin', 'Installs the New Relic MeetMe plugin.'

@@ -18,7 +18,8 @@ suites:
     attributes:
       newrelic_meetme_plugin:
         license: TESTKEY_PLUGIN_AGENT
-        service_actions: enable
+        service_actions: 
+          - enable
         services:
           apache_httpd:
             scheme: http
@@ -36,7 +37,27 @@ suites:
     attributes:
       newrelic_meetme_plugin:
         license: '0000ffff0000ffff0000ffff0000ffff0000ffff'
-        service_actions: enable
+        service_actions: 
+          - enable
+        services:
+          apache_httpd:
+            scheme: http
+            host: localhost
+            port: 80
+            path: /server-status
+          php_apc:
+            scheme: http
+            host: localhost
+            port: 80
+            path: /apc-nrp.php
+  - name: lwrp_remove
+    run_list:
+      - recipe[meetme_lwrp_test::install_remove]
+    attributes:
+      newrelic_meetme_plugin:
+        license: '0000ffff0000ffff0000ffff0000ffff0000ffff'
+        service_actions: 
+          - enable
         services:
           apache_httpd:
             scheme: http
