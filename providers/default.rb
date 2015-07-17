@@ -6,7 +6,7 @@
 #
 
 # include helper methods
-include NewRelic::Helpers
+include NewRelicMeetMePlugin::Helpers
 
 use_inline_resources if defined?(use_inline_resources)
 

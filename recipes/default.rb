@@ -7,11 +7,8 @@
 
 include_recipe node['newrelic_meetme_plugin']['python_recipe']
 
-node.default['newrelic']['license'] =  node['newrelic']['license'] ? node['newrelic']['license'] : nil
-license = node['newrelic_meetme_plugin']['license'] ? node['newrelic_meetme_plugin']['license'] : node['newrelic']['license']
-
 newrelic_meetme_plugin 'default' do
-  license license
+  license node['newrelic_meetme_plugin']['license']
   virtualenv node['newrelic_meetme_plugin']['python_pip_venv'] if node['newrelic_meetme_plugin']['python_pip_venv']
   version node['newrelic_meetme_plugin']['python_pip_version'] if node['newrelic_meetme_plugin']['python_pip_version'] != 'latest'
   config_file node['newrelic_meetme_plugin']['config_file'] if node['newrelic_meetme_plugin']['config_file']
