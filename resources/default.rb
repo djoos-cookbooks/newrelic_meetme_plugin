@@ -18,6 +18,7 @@ attribute :wake_interval, :kind_of => Integer, :default => 60
 attribute :proxy, :kind_of => String, :default => nil
 attribute :services, :kind_of => Hash, :default => nil
 attribute :additional_requirements, :kind_of => Array, :default => [] # eg. ['mongodb', 'pgbouncer']
+attribute :prefix, :kind_of => String, :default => '/usr/bin'
 attribute :service_name, :kind_of => String, :default => 'newrelic-plugin-agent'
 attribute :service_actions, :kind_of => Array, :default => [:enable, :start]
 attribute :user, :kind_of => String, :default => 'newrelic'

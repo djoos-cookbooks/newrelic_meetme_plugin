@@ -9,7 +9,7 @@
 . /etc/init.d/functions
 
 # Application
-APP="/usr/bin/<%= @resource[:service_name] %>"
+APP="<%= @resource[:prefix] %>/<%= @resource[:service_name] %>"
 
 # PID File
 PID_FILE=<%= @resource[:pid_file] %>

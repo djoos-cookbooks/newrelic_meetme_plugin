@@ -10,6 +10,7 @@ default['newrelic_meetme_plugin']['python_recipe'] = 'python::pip'
 default['newrelic_meetme_plugin']['python_pip_action'] = :install
 default['newrelic_meetme_plugin']['python_pip_version'] = 'latest'
 default['newrelic_meetme_plugin']['python_pip_venv'] = nil
+default['newrelic_meetme_plugin']['prefix'] = '/usr/bin'
 default['newrelic_meetme_plugin']['service_name'] = 'newrelic-plugin-agent'
 default['newrelic_meetme_plugin']['service_actions'] = [:enable, :start]
 default['newrelic_meetme_plugin']['service_notify_action'] = :restart
