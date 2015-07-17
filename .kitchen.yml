@@ -1,22 +1,63 @@
 ---
-driver:
-  name: vagrant
+driver_plugin: vagrant
+driver_config:
+  require_chef_omnibus: true
 
 platforms:
   - name: ubuntu-12.04
   - name: ubuntu-14.04
+  - name: centos-6.6
 
 suites:
   - name: default
     run_list:
-      - recipe[newrelic_meetme_plugin::default]
+      - recipe[meetme_lwrp_test::default]
     attributes:
       newrelic_meetme_plugin:
         service_notify_action: nothing
     attributes:
       newrelic_meetme_plugin:
         license: TESTKEY_PLUGIN_AGENT
-        service_actions: enable
+        service_actions: 
+          - enable
+        services:
+          apache_httpd:
+            scheme: http
+            host: localhost
+            port: 80
+            path: /server-status
+          php_apc:
+            scheme: http
+            host: localhost
+            port: 80
+            path: /apc-nrp.php
+  - name: lwrp
+    run_list:
+      - recipe[meetme_lwrp_test::install]
+    attributes:
+      newrelic_meetme_plugin:
+        license: '0000ffff0000ffff0000ffff0000ffff0000ffff'
+        service_actions: 
+          - enable
+        services:
+          apache_httpd:
+            scheme: http
+            host: localhost
+            port: 80
+            path: /server-status
+          php_apc:
+            scheme: http
+            host: localhost
+            port: 80
+            path: /apc-nrp.php
+  - name: lwrp_remove
+    run_list:
+      - recipe[meetme_lwrp_test::install_remove]
+    attributes:
+      newrelic_meetme_plugin:
+        license: '0000ffff0000ffff0000ffff0000ffff0000ffff'
+        service_actions: 
+          - enable
         services:
           apache_httpd:
             scheme: http

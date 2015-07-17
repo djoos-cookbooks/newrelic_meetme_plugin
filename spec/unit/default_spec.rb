@@ -2,9 +2,11 @@ require 'spec_helper'
 
 describe 'newrelic_meetme_plugin::default' do
   let(:chef_run) do
-    ChefSpec::SoloRunner.new(:platform => 'ubuntu', :version => '14.04') do |node|
+    ChefSpec::SoloRunner.new(:platform => 'ubuntu', :version => '14.04', :step_into => ['newrelic_meetme_plugin']) do |node|
+      node.set['newrelic_meetme_plugin']['python_recipe'] = 'python::pip'
       node.set['newrelic_meetme_plugin']['license'] = 'TESTKEY_PLUGIN_AGENT'
-      node.set['newrelic_meetme_plugin']['service_actions'] = :enable
+      node.set['newrelic']['license'] = 'TESTKEY_PLUGIN_AGENT'
+      node.set['newrelic_meetme_plugin']['service_actions'] = [:enable]
       node.set['newrelic_meetme_plugin']['services'] = {
         'apache_httpd' => {
           'scheme' => 'http',
@@ -24,6 +26,10 @@ describe 'newrelic_meetme_plugin::default' do
 
   it 'includes the `python::pip` recipe' do
     expect(chef_run).to include_recipe 'python::pip'
+  end
+
+  it 'creates newrelic user' do
+    expect(chef_run).to create_user('newrelic')
   end
 
   it 'installs the newrelic_plugin_agent package' do
@@ -46,44 +52,14 @@ describe 'newrelic_meetme_plugin::default' do
     end
   end
 
-  it 'creates the New Relic Plugin Agent config' do
-    expect(chef_run).to generate_newrelic_meetme_plugin_cfg('/etc/newrelic/newrelic-plugin-agent.cfg')
-      .with(
-        :license       => 'TESTKEY_PLUGIN_AGENT',
-        :wake_interval => 60,
-        :services      => {
-          'apache_httpd' => {
-            'scheme' => 'http',
-            'host'   => 'localhost',
-            'port'   => 80,
-            'path'   => '/server-status'
-          },
-          'php_apc' => {
-            'scheme' => 'http',
-            'host'   => 'localhost',
-            'port'   => 80,
-            'path'   => '/apc-nrp.php'
-          }
-        },
-        :user     => 'newrelic',
-        :pid_file => '/var/run/newrelic/newrelic-plugin-agent.pid',
-        :log_file => '/var/log/newrelic/newrelic-plugin-agent.log'
-      )
-    cfg = chef_run.newrelic_meetme_plugin_cfg('/etc/newrelic/newrelic-plugin-agent.cfg')
-    expect(cfg).to notify('service[newrelic-plugin-agent]').delayed
+  it 'generates newrelic config' do
+    expect(chef_run).to create_template('/etc/newrelic/newrelic-plugin-agent.cfg')
   end
 
   it 'creates /etc/init.d/newrelic-plugin-agent' do
     expect(chef_run).to create_template('/etc/init.d/newrelic-plugin-agent').with(
       :source    => 'newrelic-plugin-agent.erb',
-      :mode      => 0755,
-      :variables => {
-        :service_name => 'newrelic-plugin-agent',
-        :config_file  => '/etc/newrelic/newrelic-plugin-agent.cfg',
-        :pid_file     => '/var/run/newrelic/newrelic-plugin-agent.pid',
-        :user         => 'newrelic',
-        :group        => 'newrelic'
-      }
+      :mode      => 0755
     )
   end
 
@@ -98,6 +74,10 @@ describe 'newrelic_meetme_plugin::default' do
     )
     expect(chef_run).to_not start_service 'newrelic-plugin-agent'
   end
+
+  it 'restarts newrelic meetme agent' do
+    expect(chef_run).to_not restart_service('restart-newrelic-plugin-agent')
+  end
 end
 
 describe 'newrelic_meetme_plugin::default' do
@@ -105,23 +85,5 @@ describe 'newrelic_meetme_plugin::default' do
     ChefSpec::SoloRunner.new do |node|
       node.set['newrelic_meetme_plugin']['python_pip_version'] = '1.2.0'
     end.converge described_recipe
-  end
-
-  it 'installs v1.2.0 of newrelic_meetme_plugin' do
-    expect(chef_run).to install_python_pip('newrelic-plugin-agent')
-      .with :version => '1.2.0'
-  end
-end
-
-describe 'newrelic_meetme_plugin::default' do
-  let(:chef_run) do
-    ChefSpec::SoloRunner.new(:platform => 'ubuntu', :version => '14.04') do |node|
-      node.set['newrelic_meetme_plugin']['service_actions'] = :enable
-    end.converge described_recipe
-  end
-
-  it 'enables, but does not start, the newrelic-plugin-agent service' do
-    expect(chef_run).to enable_service 'newrelic-plugin-agent'
-    expect(chef_run).to_not start_service 'newrelic-plugin-agent'
   end
 end
