@@ -4,7 +4,7 @@ describe 'New Relic MeetMe Plugin Agent' do
   describe file '/etc/newrelic/newrelic-plugin-agent.cfg' do
     it { is_expected.to be_file }
 
-# rubocop:disable Style/IndentationConsistency, Style/TrailingWhitespace
+# rubocop:disable Style/IndentationConsistency, Style/TrailingWhitespace, Style/UnneededPercentQ
 services = %q(
 #services: 
   apache_httpd: 
@@ -18,7 +18,7 @@ services = %q(
     port: 80
     path: "/apc-nrp.php"
 )
-    # rubocop:enable Style/IndentationConsistency, Style/TrailingWhitespace
+    # rubocop:enable Style/IndentationConsistency, Style/TrailingWhitespace, Style/UnneededPercentQ
 
     describe '#content' do
       subject { super().content }
