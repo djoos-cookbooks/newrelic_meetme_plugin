@@ -1,13 +1,12 @@
-[![Build Status](https://travis-ci.org/escapestudios-cookbooks/newrelic_meetme_plugin.png)](https://travis-ci.org/escapestudios-cookbooks/newrelic_meetme_plugin)
+[![Build Status](https://travis-ci.org/djoos-cookbooks/newrelic_meetme_plugin.png)](https://travis-ci.org/djoos-cookbooks/newrelic_meetme_plugin)
 
 # newrelic_meetme_plugin cookbook
 
 ## Description
 
-This cookbook provides an easy way to install various New Relic agents and the New Relic server monitor.
+This cookbook provides an easy way to install the New Relic MeetMe plugin.
 
 More information?
-
 * https://pypi.python.org/pypi/newrelic-plugin-agent
 * https://github.com/MeetMe/newrelic-plugin-agent#installation-instructions
 
@@ -89,7 +88,7 @@ There are two ways to use this cookbook: the LWRP resource or the default recipe
 1. include `recipe[newrelic_meetme_plugin]`
 2. change the `node['newrelic_meetme_plugin']['license']` attribute to your New Relic license key
 --- OR ---
-override the attributes on a higher level (http://wiki.opscode.com/display/chef/Attributes#Attributes-AttributesPrecedence)
+[override the attributes on a higher level](http://wiki.opscode.com/display/chef/Attributes#Attributes-AttributesPrecedence)
 
 ### newrelic_meetme_plugin lwrp:
 
@@ -120,6 +119,9 @@ The `newrelic_meetme_plugin` resource will install or remove the plugin and popu
 * `'log_file'`- The New Relic plugin agent log file name, defaults to "/var/log/newrelic/newrelic-plugin-agent.log"
 
 ## License and Authors
+
+Author: David Joos <development@davidjoos.com>
+Copyright: 2016, David Joos
 
 Author: David Joos <david.joos@escapestudios.com>
 Author: Escape Studios Development <dev@escapestudios.com>

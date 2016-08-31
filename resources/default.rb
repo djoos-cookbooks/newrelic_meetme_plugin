@@ -2,7 +2,7 @@
 # Cookbook Name:: newrelic_meetme_plugin
 # Resource: newrelic_meetme_plugin_install
 #
-# Copyright 2012-2015, Escape Studios
+# Copyright (c) 2016, David Joos
 #
 
 actions :install, :remove
