@@ -4,7 +4,7 @@ maintainer_email 'development@davidjoos.com'
 license 'MIT'
 description 'Installs/Configures New Relic MeetMe plugin'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version '0.4.0'
+version '0.5.0'
 
 %w(debian ubuntu redhat centos fedora scientific amazon windows smartos).each do |os|
   supports os
