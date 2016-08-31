@@ -4,7 +4,7 @@ module NewRelicMeetMePlugin
   module Helpers
     def check_license
       # check license key provided
-      fail 'The New Relic key is required.' if new_resource.license.nil?
+      raise 'The New Relic key is required.' if new_resource.license.nil?
     end
 
     def pip_installed?

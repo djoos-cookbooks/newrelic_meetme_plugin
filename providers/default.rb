@@ -2,7 +2,7 @@
 # Cookbook Name:: newrelic_meetme_plugin
 # Provider:: newrelic_meetme_plugin_install
 #
-# Copyright 2012-2015, Escape Studios
+# Copyright (c) 2016, David Joos
 #
 
 # include helper methods
@@ -20,7 +20,7 @@ end
 action :install do
   # Check license key provided
   check_license
-  fail 'Cannot install newrelic meetme plugin. Missing pip. Please ensure python and pip are installed before calling this resource.' unless pip_installed?
+  raise 'Cannot install newrelic meetme plugin. Missing pip. Please ensure python and pip are installed before calling this resource.' unless pip_installed?
   converge_by("Install #{@new_resource}.") do
     user_manage('create')
     create_files
