@@ -46,7 +46,7 @@ def generate_config
   services = {
     '#services' => new_resource.services
   }
-  services_yml = services.to_yaml(:indentation => 2).gsub(/(! )?['"]#services['"]:/, '#services:').gsub('---', '').gsub(%r{!(ruby\/|map|seq)[a-zA-Z:]*}, '')
+  services_yml = JSON.parse(services.to_hash.dup.to_json).to_yaml(:indentation => 2).gsub(/(! )?['"]#services['"]:/, '#services:').gsub('---', '').gsub(%r{!(ruby\/|map|seq)[a-zA-Z:]*}, '')
 
   # service restart
   service 'restart-newrelic-plugin-agent' do
